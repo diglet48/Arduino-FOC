@@ -10,7 +10,7 @@
 
 #define _ADC_VOLTAGE 3.3f
 #define _ADC_RESOLUTION 4096.0f
-#define ADC_BUF_LEN_1 6
+#define ADC_BUF_LEN_1 7
 #define ADC_BUF_LEN_2 1
 
 static ADC_HandleTypeDef hadc1;
@@ -44,8 +44,10 @@ float _readADCVoltageLowSide(const int pin, const void* cs_params){
     raw_adc = adcBuffer1[3];
   else if (pin == A_VBUS)
     raw_adc = adcBuffer1[4];
-  else
+  else if (pin == ADC_CHANNEL_TEMPSENSOR_ADC1)
     raw_adc = adcBuffer1[5];
+  else if (pin == ADC_CHANNEL_VREFINT)
+    raw_adc = adcBuffer1[6];
 
   return raw_adc * ((Stm32CurrentSenseParams*)cs_params)->adc_voltage_conv;
 }

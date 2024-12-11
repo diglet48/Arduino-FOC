@@ -95,7 +95,7 @@ void  MX_ADC1_Init(ADC_HandleTypeDef* hadc1)
   hadc1->Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc1->Init.LowPowerAutoWait = DISABLE;
   hadc1->Init.ContinuousConvMode = DISABLE;
-  hadc1->Init.NbrOfConversion = 6;
+  hadc1->Init.NbrOfConversion = 7;
   hadc1->Init.DiscontinuousConvMode = DISABLE;
   hadc1->Init.ExternalTrigConv = ADC_EXTERNALTRIG_T1_TRGO;
   hadc1->Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
@@ -176,10 +176,23 @@ void  MX_ADC1_Init(ADC_HandleTypeDef* hadc1)
     SIMPLEFOC_DEBUG("HAL_ADC_ConfigChannel failed!");
   }
   
-  /** Configure Regular Channel (PB14, Temperature)
+  /** Configure Regular Channel (internal temperature sensor)
+  */
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR_ADC1;
+  sConfig.Rank = ADC_REGULAR_RANK_6;
+  sConfig.SamplingTime = ADC_SAMPLETIME_47CYCLES_5;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(hadc1, &sConfig) != HAL_OK)
+  {
+    SIMPLEFOC_DEBUG("HAL_ADC_ConfigChannel failed!");
+  }
+
+  /** Configure Regular Channel (VREFINT)
   */
   sConfig.Channel = ADC_CHANNEL_VREFINT;
-  sConfig.Rank = ADC_REGULAR_RANK_6;
+  sConfig.Rank = ADC_REGULAR_RANK_7;
   sConfig.SamplingTime = ADC_SAMPLETIME_47CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
